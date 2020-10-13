@@ -4,7 +4,22 @@ type: docker
 name: default
 
 steps:
-- name: front_end
+- name: front_end_app - install
   image: node:14.13.1
   commands:
   - node --version
+  - cd front_end_app
+  - npm install --verbose
+- name: front_end_app - lint
+  image: node:14.13.1
+  commands:
+  - node --version
+  - cd front_end_app
+  - npm run lint --verbose
+
+- name: front_end_app - test
+  image: node:14.13.1
+  commands:
+  - node --version
+  - cd front_end_app
+  - npm run test:unit --verbose
