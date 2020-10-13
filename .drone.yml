@@ -10,6 +10,7 @@ steps:
   - node --version
   - cd front_end_app
   - npm install --verbose
+
 - name: front_end_app - lint
   image: node:14.13.1
   commands:
@@ -19,7 +20,47 @@ steps:
 
 - name: front_end_app - test
   image: node:14.13.1
+  depends_on:
+  - front_end_app - install
+  - front_end_app - lint
   commands:
   - node --version
   - cd front_end_app
   - npm run test:unit --verbose
+
+- name: front_end_server - style
+  image: rust:1.47.0
+  environment:
+    RUST_BACKTRACE: full
+  commands:
+  - rustup component add rustfmt
+  - rustc --version
+  - cargo --version
+  - cargo fmt -- --version
+  - cd front_end_server
+  - cargo fmt --all -- --check
+
+- name: front_end_server - lint
+  image: rust:1.47.0
+  environment:
+    RUST_BACKTRACE: full
+  commands:
+  - rustup component add clippy
+  - rustc --version
+  - cargo --version
+  - cargo clippy -- --version
+  - cd front_end_server
+  - cargo clippy --workspace --all-targets --all-features
+
+- name: front_end_server - test
+  image: rust:1.47.0
+  environment:
+    RUST_BACKTRACE: full
+  depends_on:
+  - front_end_server - style
+  - front_end_server - lint
+  commands:
+  - rustc --version
+  - cargo --version
+  - cd front_end_server
+  - cargo test --workspace --all-features --release
