@@ -83,6 +83,7 @@ steps:
   commands:
   - node --version
   - cd front_end_app
+  - npm install
   - npm run build --verbose
 
 - name: build_server
