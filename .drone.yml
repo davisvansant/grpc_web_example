@@ -68,3 +68,31 @@ steps:
   - cargo --version
   - cd front_end_server
   - cargo test
+
+---
+kind: pipeline
+type: docker
+name: build_front_end
+depends_on:
+- front_end_app
+- front_end_server
+
+steps:
+- name: build_app
+  image: node:14.13.1
+  commands:
+  - node --version
+  - cd front_end_app
+  - npm run build --verbose
+
+- name: build_server
+  image: rust:1.47.0
+  environment:
+    RUST_BACKTRACE: full
+  commands:
+  - rustup component add clippy
+  - rustc --version
+  - cargo --version
+  - cargo clippy -- --version
+  - cd front_end_server
+  - cargo build --release
