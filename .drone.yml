@@ -57,17 +57,14 @@ steps:
   - cargo --version
   - cargo clippy -- --version
   - cd front_end_server
-  - cargo clippy --workspace --all-targets --all-features
+  - cargo clippy
 
 - name: server_test
   image: rust:1.47.0
   environment:
     RUST_BACKTRACE: full
-  depends_on:
-  - server_style
-  - server_lint
   commands:
   - rustc --version
   - cargo --version
   - cd front_end_server
-  - cargo test --workspace --all-features --release
+  - cargo test
