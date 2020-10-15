@@ -1,5 +1,6 @@
 [workspace]
 
 members = [
-  "back_end_server"
+  "back_end_server",
+  "front_end_server"
 ]
