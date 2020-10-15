@@ -84,6 +84,43 @@ steps:
 ---
 kind: pipeline
 type: docker
+name: back_end_server
+
+steps:
+- name: server_style
+  image: rust:1.47.0
+  environment:
+    RUST_BACKTRACE: full
+  commands:
+  - rustup component add rustfmt
+  - rustc --version
+  - cargo --version
+  - cargo fmt -- --version
+  - cargo fmt --all -- --check
+
+- name: server_lint
+  image: rust:1.47.0
+  environment:
+    RUST_BACKTRACE: full
+  commands:
+  - rustup component add clippy
+  - rustc --version
+  - cargo --version
+  - cargo clippy -- --version
+  - cargo clippy
+
+- name: server_test
+  image: rust:1.47.0
+  environment:
+    RUST_BACKTRACE: full
+  commands:
+  - rustc --version
+  - cargo --version
+  - cargo test
+
+---
+kind: pipeline
+type: docker
 name: build_front_end
 depends_on:
 - front_end_app
