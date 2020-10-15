@@ -1,6 +1,18 @@
 ---
 kind: pipeline
 type: docker
+name: proto
+
+steps:
+- name: lint_proto
+  image: bufbuild/buf:0.26.0
+  commands:
+  - buf --version
+  - buf check lint
+
+---
+kind: pipeline
+type: docker
 name: front_end_app
 
 steps:
