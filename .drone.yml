@@ -94,6 +94,13 @@ steps:
   - rustup component add clippy
   - rustc --version
   - cargo --version
-  - cargo clippy -- --version
   - cd front_end_server
   - cargo build --release
+
+- name: build_docker
+  image: plugins/docker
+  settings:
+    dry_run: true
+    dockerfile: ./docker/Dockerfile.front_end
+    repo: davisvansant/grpc_web_front_end
+    tags: 0.1.0
