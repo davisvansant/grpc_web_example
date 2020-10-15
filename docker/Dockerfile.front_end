@@ -1,4 +1,4 @@
 FROM ubuntu:20.04
 COPY ./front_end_app/dist/ ./dist
-COPY ./front_end_server/target/release/front_end_server ./
+COPY ./target/release/front_end_server ./
 CMD ["./front_end_server"]
