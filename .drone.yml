@@ -96,6 +96,7 @@ steps:
   - rustc --version
   - cargo --version
   - cargo fmt -- --version
+  - cd back_end_server
   - cargo fmt --all -- --check
 
 - name: server_lint
@@ -104,9 +105,12 @@ steps:
     RUST_BACKTRACE: full
   commands:
   - rustup component add clippy
+  - rustup component add rustfmt
   - rustc --version
   - cargo --version
   - cargo clippy -- --version
+  - cargo fmt -- --version
+  - cd back_end_server
   - cargo clippy
 
 - name: server_test
@@ -114,8 +118,11 @@ steps:
   environment:
     RUST_BACKTRACE: full
   commands:
+  - rustup component add rustfmt
   - rustc --version
   - cargo --version
+  - cargo fmt -- --version
+  - cd back_end_server
   - cargo test
 
 ---
