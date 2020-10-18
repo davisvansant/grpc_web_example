@@ -153,10 +153,28 @@ steps:
   - cd front_end_server
   - cargo build --release
 
+- name: build_backend_server
+  image: rust:1.47.0
+  environment:
+    RUST_BACKTRACE: full
+  commands:
+  - rustc --version
+  - cargo --version
+  - cd back_end_server
+  - cargo build --release
+
 - name: build_docker
   image: plugins/docker
   settings:
     dry_run: true
     dockerfile: ./docker/Dockerfile.front_end
     repo: davisvansant/grpc_web_front_end
+    tags: 0.1.0
+
+- name: build_docker_back_end
+  image: plugins/docker
+  settings:
+    dry_run: true
+    dockerfile: ./docker/Dockerfile.back_end
+    repo: davisvansant/grpc_web_back_end
     tags: 0.1.0
