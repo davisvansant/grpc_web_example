@@ -1,3 +1,4 @@
 */*
 !./front_end_app/dist*
 !./target/release/*server
+!./envoy/*
