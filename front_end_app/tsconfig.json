@@ -36,10 +36,10 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx",
-    "../proto/output/*.ts",
-    "../proto/output/*.js"
+    "../proto/output/*.ts"
   ],
   "exclude": [
     "node_modules"
-  ]
+  ],
+  "files": ["../proto/output/hello_pb.js"]
 }
