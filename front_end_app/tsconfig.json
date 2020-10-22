@@ -20,7 +20,8 @@
     "paths": {
       "@/*": [
         "src/*"
-      ]
+      ],
+      "grpc-web": ["node_modules/grpc-web"]
     },
     "lib": [
       "esnext",
@@ -34,7 +35,9 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
-    "tests/**/*.tsx"
+    "tests/**/*.tsx",
+    "../proto/output/*.ts",
+    "../proto/output/*.js"
   ],
   "exclude": [
     "node_modules"
