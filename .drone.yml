@@ -10,18 +10,18 @@ steps:
   - buf --version
   - buf check lint
 
-- name: build_proto
-  image: davisvansant/grpc_web
-  commands:
-  - protoc --version
-  - protoc -I=proto/hello/v1 hello.proto --js_out=import_style=commonjs,binary:./proto/output --grpc-web_out=import_style=typescript,mode=grpcwebtext:./proto/output
-
 ---
 kind: pipeline
 type: docker
 name: front_end_app
 
 steps:
+- name: build_proto
+  image: davisvansant/grpc_web
+  commands:
+  - protoc --version
+  - protoc -I=proto/hello/v1 hello.proto --js_out=import_style=commonjs,binary:./proto/output --grpc-web_out=import_style=typescript,mode=grpcwebtext:./proto/output
+
 - name: app_install
   image: node:14.13.1
   commands:
@@ -33,6 +33,7 @@ steps:
   image: node:14.13.1
   depends_on:
   - app_install
+  - build_proto
   commands:
   - node --version
   - cd front_end_app
@@ -42,6 +43,7 @@ steps:
   image: node:14.13.1
   depends_on:
   - app_install
+  - build_proto
   commands:
   - node --version
   - cd front_end_app
@@ -140,8 +142,16 @@ depends_on:
 - front_end_server
 
 steps:
+- name: build_proto
+  image: davisvansant/grpc_web
+  commands:
+  - protoc --version
+  - protoc -I=proto/hello/v1 hello.proto --js_out=import_style=commonjs,binary:./proto/output --grpc-web_out=import_style=typescript,mode=grpcwebtext:./proto/output
+
 - name: build_app
   image: node:14.13.1
+  depends_on:
+  - build_proto
   commands:
   - node --version
   - cd front_end_app
