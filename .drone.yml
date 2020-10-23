@@ -4,7 +4,7 @@ type: docker
 name: proto
 
 steps:
-- name: lint_proto
+- name: lint
   image: bufbuild/buf:0.26.0
   commands:
   - buf --version
@@ -22,28 +22,22 @@ steps:
   - protoc --version
   - protoc -I=proto/hello/v1 hello.proto --js_out=import_style=commonjs,binary:./proto/output --grpc-web_out=import_style=typescript,mode=grpcwebtext:./proto/output
 
-- name: app_install
+- name: install
   image: node:14.13.1
   commands:
   - node --version
   - cd front_end_app
   - npm install --verbose
 
-- name: app_lint
+- name: lint
   image: node:14.13.1
-  depends_on:
-  - app_install
-  - build_proto
   commands:
   - node --version
   - cd front_end_app
   - npm run lint --verbose
 
-- name: app_test
+- name: test
   image: node:14.13.1
-  depends_on:
-  - app_install
-  - build_proto
   commands:
   - node --version
   - cd front_end_app
@@ -55,7 +49,7 @@ type: docker
 name: front_end_server
 
 steps:
-- name: server_style
+- name: style
   image: rust:1.47.0
   environment:
     RUST_BACKTRACE: full
@@ -65,9 +59,9 @@ steps:
   - cargo --version
   - cargo fmt -- --version
   - cd front_end_server
-  - cargo fmt --all -- --check
+  - cargo fmt -- --check
 
-- name: server_lint
+- name: lint
   image: rust:1.47.0
   environment:
     RUST_BACKTRACE: full
@@ -79,7 +73,7 @@ steps:
   - cd front_end_server
   - cargo clippy
 
-- name: server_test
+- name: test
   image: rust:1.47.0
   environment:
     RUST_BACKTRACE: full
@@ -95,7 +89,7 @@ type: docker
 name: back_end_server
 
 steps:
-- name: server_style
+- name: style
   image: rust:1.47.0
   environment:
     RUST_BACKTRACE: full
@@ -105,9 +99,9 @@ steps:
   - cargo --version
   - cargo fmt -- --version
   - cd back_end_server
-  - cargo fmt --all -- --check
+  - cargo fmt -- --check
 
-- name: server_lint
+- name: lint
   image: rust:1.47.0
   environment:
     RUST_BACKTRACE: full
@@ -121,7 +115,7 @@ steps:
   - cd back_end_server
   - cargo clippy
 
-- name: server_test
+- name: test
   image: rust:1.47.0
   environment:
     RUST_BACKTRACE: full
@@ -136,10 +130,11 @@ steps:
 ---
 kind: pipeline
 type: docker
-name: build_front_end
+name: build
 depends_on:
 - front_end_app
 - front_end_server
+- back_end_server
 
 steps:
 - name: build_proto
@@ -148,7 +143,7 @@ steps:
   - protoc --version
   - protoc -I=proto/hello/v1 hello.proto --js_out=import_style=commonjs,binary:./proto/output --grpc-web_out=import_style=typescript,mode=grpcwebtext:./proto/output
 
-- name: build_app
+- name: front_end_app
   image: node:14.13.1
   commands:
   - node --version
@@ -156,7 +151,7 @@ steps:
   - npm install
   - npm run build --verbose
 
-- name: build_server
+- name: front_end_server
   image: rust:1.47.0
   environment:
     RUST_BACKTRACE: full
@@ -167,7 +162,7 @@ steps:
   - cd front_end_server
   - cargo build --release
 
-- name: build_backend_server
+- name: back_end_server
   image: rust:1.47.0
   environment:
     RUST_BACKTRACE: full
@@ -179,18 +174,26 @@ steps:
   - cd back_end_server
   - cargo build --release
 
-- name: build_docker
-  image: plugins/docker
-  settings:
-    dry_run: true
-    dockerfile: ./docker/Dockerfile.front_end
-    repo: davisvansant/grpc_web_front_end
-    tags: 0.1.0
-
-- name: build_docker_back_end
+- name: docker_back_end
   image: plugins/docker
   settings:
     dry_run: true
     dockerfile: ./docker/Dockerfile.back_end
     repo: davisvansant/grpc_web_back_end
+    tags: 0.1.0
+
+- name: docker_envoy_proxy
+  image: plugins/docker
+  settings:
+    dry_run: true
+    dockerfile: ./docker/Dockerfile.envoy_proxy
+    repo: davisvansant/grpc_web_envoy_proxy
+    tags: 0.1.0
+
+- name: docker_front_end
+  image: plugins/docker
+  settings:
+    dry_run: true
+    dockerfile: ./docker/Dockerfile.front_end
+    repo: davisvansant/grpc_web_front_end
     tags: 0.1.0
