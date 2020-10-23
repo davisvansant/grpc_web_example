@@ -150,8 +150,6 @@ steps:
 
 - name: build_app
   image: node:14.13.1
-  depends_on:
-  - build_proto
   commands:
   - node --version
   - cd front_end_app
@@ -174,8 +172,10 @@ steps:
   environment:
     RUST_BACKTRACE: full
   commands:
+  - rustup component add rustfmt
   - rustc --version
   - cargo --version
+  - cargo fmt -- --version
   - cd back_end_server
   - cargo build --release
 
