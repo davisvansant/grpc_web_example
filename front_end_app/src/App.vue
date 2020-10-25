@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/grpc-horizontal-color.svg">
-    <h1>Welcome to Your Vue.js + TypeScript App</h1>
+  <div id="app" style="background-color:white;box-shadow:3px 3px 20px 0 purple;">
+    <img alt="grpc logo" style="display:inline-block;width:200px;height:100px;vertical-align:middle;" src="./assets/grpc-horizontal-color.svg">
+    <h3 style="display:inline-block;vertical-align:middle;margin-left:30px;font-family:Courier New;color:#244c5a;"> <span style="color:#5ac5c5;"> _></span> hello from grpc web!</h3>
   </div>
 </template>
 
