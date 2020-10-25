@@ -5,6 +5,6 @@ import App from '@/App.vue'
 describe('App', () => {
   it('should work', () => {
     const wrapper = shallowMount(App)
-    expect(wrapper.text()).to.include('Welcome to Your Vue.js + TypeScript App')
+    expect(wrapper.text()).to.include('_> hello from grpc web!')
   })
 })
