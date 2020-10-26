@@ -1,7 +1,22 @@
 <template>
-  <div id="app" style="background-color:white;box-shadow:3px 3px 20px 0 purple;">
-    <img alt="grpc logo" style="display:inline-block;width:200px;height:100px;vertical-align:middle;" src="./assets/grpc-horizontal-color.svg">
-    <h3 style="display:inline-block;vertical-align:middle;margin-left:30px;font-family:Courier New;color:#244c5a;"> <span style="color:#5ac5c5;"> _></span> hello from grpc web!</h3>
+  <div id="app" >
+    <header style="background-color:white;box-shadow:3px 3px 20px 0 purple;">
+      <img alt="grpc logo" style="display:inline-block;width:200px;height:100px;vertical-align:middle;" src="./assets/grpc-horizontal-color.svg">
+      <h3 style="display:inline-block;vertical-align:middle;margin-left:30px;font-family:Courier New;color:#244c5a;"> <span style="color:#5ac5c5;"> _></span> hello from grpc web!</h3>
+    </header>
+    <div id="something" style="
+      background-color:black;
+      width: 800px;
+      height: 300px;
+      padding: 25px;
+      margin: 25px;
+      box-shadow:3px 3px 10px 0 rgba(0, 0, 0, 0.75);
+      font-family:Courier New;
+      color: white;"
+      >
+      <p> [ say something to grpc ] </p>
+      <p> > <span id="blinker">_</span></p>
+    </div>
   </div>
 </template>
 
@@ -28,3 +43,14 @@ export default {
 }
 
 </script>
+
+<style>
+  #blinker {
+    animation: blinker 1s linear infinite;
+  }
+  @keyframes blinker {
+    50% {
+      opacity: 0;
+    }
+  }
+</style>
