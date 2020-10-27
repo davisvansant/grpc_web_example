@@ -15,7 +15,9 @@
       color: white;"
       >
       <p> [ say something to grpc ] </p>
-      <p> > <span id="blinker">_</span></p>
+      <p> grpc@web # <input autofocus style="background-color:black;border:none;outline:none;font-family:Courier New;color: white;" v-model="message"> </p>
+      <button style="background-color:black;border:1px solid #244c5a;padding: 10px 10px;outline:none;margin: 5px 5px;font-family:Courier New;color:white;" v-on:click="grpc()"> --> send request</button>
+      <p>{{ grpcResponse }}</p>
     </div>
   </div>
 </template>
@@ -39,18 +41,29 @@ hello.sayHello(request, metadata, (err, response) => {
 })
 
 export default {
-  name: 'app'
+  name: 'app',
+  data: function () {
+    return {
+      message: null,
+      grpcResponse: null
+    }
+  },
+  methods: {
+    grpc: function () {
+      const hi = new HelloServiceClient('http://0.0.0.0:9091', null, null)
+      const req = new SayHelloRequest()
+      const n = this.message
+      req.setName(n)
+      const md = { 'grpc-web-text': '*' }
+      hi.sayHello(req, md, (err, response) => {
+        if (err) {
+          this.grpcResponse = err
+        } else {
+          this.grpcResponse = response.getMessage()
+        }
+      })
+    }
+  }
 }
 
 </script>
-
-<style>
-  #blinker {
-    animation: blinker 1s linear infinite;
-  }
-  @keyframes blinker {
-    50% {
-      opacity: 0;
-    }
-  }
-</style>
