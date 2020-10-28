@@ -135,7 +135,7 @@ depends_on:
 - front_end_app
 - front_end_server
 - back_end_server
-when:
+trigger:
   event:
     - tag
 
