@@ -135,6 +135,9 @@ depends_on:
 - front_end_app
 - front_end_server
 - back_end_server
+when:
+  event:
+    - tag
 
 steps:
 - name: build_proto
