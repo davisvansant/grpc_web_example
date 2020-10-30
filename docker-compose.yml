@@ -1,0 +1,26 @@
+---
+version: "3.8"
+services:
+  back_end:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.back_end
+    ports:
+      - "9090:9090"
+  proxy:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.envoy_proxy
+    depends_on:
+      - back_end
+    ports:
+      - "9091:9091"
+      - "9901:9901"
+  front_end:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.front_end
+    depends_on:
+      - proxy
+    ports:
+      - "8080:8080"
