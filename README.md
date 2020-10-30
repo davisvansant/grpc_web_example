@@ -7,6 +7,13 @@ This is intended to be as simple as possible while learning the potential for th
 
 Say hello to a `gRPC` system over the web!
 
+For local testing:
+
+```
+build - drone exec .drone.yml --pipeline build
+run - docker-compose up
+```
+
 ---
 
 > Back End Overview
@@ -38,6 +45,6 @@ The "glue" for all of this to work. The service is defined in the protocol buffe
 
 > Docker Overview
 
-Once built, everything can be ran from a `Docker` container for portability (compose and k8s incoming)
+Once built, everything can be ran from a `Docker` container for portability
 
  - https://www.docker.com/
