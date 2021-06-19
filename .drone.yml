@@ -50,7 +50,7 @@ name: front_end_server
 
 steps:
 - name: style
-  image: rust:1.47.0
+  image: rust:1.53.0
   environment:
     RUST_BACKTRACE: full
   commands:
@@ -62,7 +62,7 @@ steps:
   - cargo fmt -- --check
 
 - name: lint
-  image: rust:1.47.0
+  image: rust:1.53.0
   environment:
     RUST_BACKTRACE: full
   commands:
@@ -74,7 +74,7 @@ steps:
   - cargo clippy
 
 - name: test
-  image: rust:1.47.0
+  image: rust:1.53.0
   environment:
     RUST_BACKTRACE: full
   commands:
@@ -90,7 +90,7 @@ name: back_end_server
 
 steps:
 - name: style
-  image: rust:1.47.0
+  image: rust:1.53.0
   environment:
     RUST_BACKTRACE: full
   commands:
@@ -102,7 +102,7 @@ steps:
   - cargo fmt -- --check
 
 - name: lint
-  image: rust:1.47.0
+  image: rust:1.53.0
   environment:
     RUST_BACKTRACE: full
   commands:
@@ -116,7 +116,7 @@ steps:
   - cargo clippy
 
 - name: test
-  image: rust:1.47.0
+  image: rust:1.53.0
   environment:
     RUST_BACKTRACE: full
   commands:
@@ -155,7 +155,7 @@ steps:
   - npm run build --verbose
 
 - name: front_end_server
-  image: rust:1.47.0
+  image: rust:1.53.0
   environment:
     RUST_BACKTRACE: full
   commands:
@@ -166,7 +166,7 @@ steps:
   - cargo build --release
 
 - name: back_end_server
-  image: rust:1.47.0
+  image: rust:1.53.0
   environment:
     RUST_BACKTRACE: full
   commands:
